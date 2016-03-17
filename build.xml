@@ -1,0 +1,65 @@
+<project name="Hello" basedir="." default="rebuild-run-no-dist">
+
+	<target name="rebuild" depends="clean,jar, dist" />
+	<target name="rebuild-run" depends="clean, dist, run" />
+	<target name="rebuild-run-no-dist" depends="clean, run" />
+
+
+
+	<property name="src.dir" value="src" />
+	<property name="lib.dir" value="lib" />
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	<property name="build.dir" value="build" />
+	<property name="dist.dir" value="dist" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jar.dir" value="${build.dir}/jar" />
+	<property name="rcs.dir" value="${jar.dir}/Resources" />
+	<property name="main-class" value="hello.Main" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${classes.dir}" />
+
+		<copy file="lib/lbpcascade_frontalface.xml" todir="${rcs.dir}" />
+		<copy todir="${rcs.dir}">
+			<fileset dir="lib" excludes="*.png" />
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="lib" includes="*.png" />
+		</copy>
+
+
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpath="lib/opencv-310.jar" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${jar.dir}" />
+		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+				<attribute name="Class-Path" value="Resources/opencv-310.jar" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="dist" depends="jar">
+		<zip destfile="${dist.dir}/${ant.project.name}.zip" basedir="${jar.dir}">
+		</zip>
+	</target>
+
+	<target name="run" depends="jar">
+		<java dir="${jar.dir}" jar="${jar.dir}/${ant.project.name}.jar" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="-h" />
+			<classpath>
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
+
+
+</project>
