@@ -49,7 +49,7 @@ public class Main {
 		while (frame.isVisible()) {
 			Mat m = null;
 			m = takeAPicture();
-			findFace(m);
+			findFace2(m);
 			number.setText("" + numberOfFaces);
 			if (numberOfFaces > 0 && !detected) {
 				detected = true;
@@ -111,6 +111,13 @@ public class Main {
 	public static void findFace(Mat face) {
 		CascadeClassifier faceDetector = new CascadeClassifier(
 				new File(getRsrcsFolder() + "lbpcascade_frontalface.xml").getAbsolutePath());
+		MatOfRect faceDetections = new MatOfRect();
+		faceDetector.detectMultiScale(face, faceDetections);
+		numberOfFaces = faceDetections.toArray().length;
+	}
+	public static void findFace2(Mat face) {
+		CascadeClassifier faceDetector = new CascadeClassifier(
+				new File(getRsrcsFolder() + "haarcascade_frontalface_alt.xml").getAbsolutePath());
 		MatOfRect faceDetections = new MatOfRect();
 		faceDetector.detectMultiScale(face, faceDetections);
 		numberOfFaces = faceDetections.toArray().length;

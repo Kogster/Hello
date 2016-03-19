@@ -26,6 +26,7 @@
 		<mkdir dir="${classes.dir}" />
 
 		<copy file="lib/lbpcascade_frontalface.xml" todir="${rcs.dir}" />
+		<copy file="lib/haarcascade_frontalface_alt.xml" todir="${rcs.dir}" />
 		<copy todir="${rcs.dir}">
 			<fileset dir="lib" excludes="*.png" />
 		</copy>
