@@ -118,11 +118,11 @@ public class Main {
 
 	public static String getRsrcsFolder() {
 		String result = "";
-		if (isJar()) { // Not executing as jar, tries path that
-			// would be if executed from eclipse
+		if (isJar()) { 
 			result = new File(getExecPath().getParentFile().getAbsolutePath() + File.separator + "Resources")
 					.getAbsolutePath() + File.separator;
-		} else {
+		} else {// Not executing as jar, tries path that
+			// would be if executed from eclipse
 			result = getExecPath().getParentFile().getAbsolutePath() + File.separator + "lib" + File.separator;
 		}
 		return result;
