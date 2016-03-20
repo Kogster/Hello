@@ -15,50 +15,48 @@ import javax.swing.JLabel;
 
 public class Gui {
 	private JLabel lbl;
-	private ImageIcon helloicon, notHelloicon, stolpskottIcon;
-	
-	public enum Tillstand{HELLO, STOLPSKOTT, INGET};
-	
-	public Gui() throws IOException{
-        helloicon = new ImageIcon(ImageIO.read(getStreamFor("Hello.png")));
-        notHelloicon = new ImageIcon(ImageIO.read(getStreamFor("notHello.png")));
-        stolpskottIcon = new ImageIcon(ImageIO.read(getStreamFor("stolpskott.png")));
-        JFrame frame=new JFrame();
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        frame.setLayout(new FlowLayout());
-        frame.setSize(640, 400);
-//        frame.setBackground(new Color(0,0,0,0));
-        lbl=new JLabel();
-        lbl.setIcon(notHelloicon);
-        frame.add(lbl);
-        frame.setUndecorated(true);
-        frame.setLocation(new Point(100,100));
-        frame.setVisible(true);
+	private ImageIcon helloicon, notHelloicon;
+
+	public enum State {
+		HELLO, EAST, NONE
+	};
+
+	public Gui() throws IOException {
+		helloicon = new ImageIcon(ImageIO.read(getStreamFor("Hello.png")));
+		notHelloicon = new ImageIcon(ImageIO.read(getStreamFor("notHello.png")));
+		JFrame frame = new JFrame();
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		frame.setLayout(new FlowLayout());
+		frame.setSize(640, 400);
+		// frame.setBackground(new Color(0,0,0,0));
+		lbl = new JLabel();
+		lbl.setIcon(notHelloicon);
+		frame.add(lbl);
+		frame.setUndecorated(true);
+		frame.setLocation(new Point(100, 100));
+		frame.setVisible(true);
 	}
-	
-	private InputStream getStreamFor(String imgName){
-		if(Main.isJar()){
-			return Gui.class.getClassLoader().getResourceAsStream(imgName);
-		} else {
-			try {
-				return new FileInputStream(new File(Main.getRsrcsFolder() + File.separator + imgName));
-			} catch (FileNotFoundException e) {
-				System.err.println("Opsie failed to find an image file");
-			}
+
+	private InputStream getStreamFor(String imgName) {
+		try {
+			return new FileInputStream(new File(Main.getRsrcsFolder() + File.separator + imgName));
+		} catch (FileNotFoundException e) {
+			System.err.println("Opsie failed to find an image file");
 		}
+
 		return null;
 	}
-	
-	public void setState(Tillstand state){
-		switch(state){
+
+	public void setState(State state) {
+		switch (state) {
 		case HELLO:
 			lbl.setIcon(helloicon);
 			break;
-		case INGET:
+		case NONE:
 			lbl.setIcon(notHelloicon);
 			break;
-		case STOLPSKOTT:
-			lbl.setIcon(stolpskottIcon);
+		case EAST:
+			lbl.setIcon(Main.getImageIcon());
 			break;
 		}
 	}

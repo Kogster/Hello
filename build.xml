@@ -28,12 +28,8 @@
 		<copy file="lib/lbpcascade_frontalface.xml" todir="${rcs.dir}" />
 		<copy file="lib/haarcascade_frontalface_alt.xml" todir="${rcs.dir}" />
 		<copy todir="${rcs.dir}">
-			<fileset dir="lib" excludes="*.png" />
+			<fileset dir="lib" />
 		</copy>
-		<copy todir="${classes.dir}">
-			<fileset dir="lib" includes="*.png" />
-		</copy>
-
 
 		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpath="lib/opencv-310.jar" />
 	</target>
