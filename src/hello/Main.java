@@ -73,7 +73,7 @@ public class Main {
 					playSound("yourFace");
 					g.setState(Gui.State.EAST);
 				} else {
-					playSound2("welcome");
+					playSound("welcome");
 				}
 
 			} else if (numberOfFaces > 0 && detected) {
